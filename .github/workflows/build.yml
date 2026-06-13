@@ -1,6 +1,5 @@
 name: Build Android APK
 
-
 on:
   workflow_dispatch:
 
@@ -10,26 +9,25 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-
+        
       - name: Setup Java
         uses: actions/setup-java@v4
         with:
           distribution: 'zulu'
           java-version: '17'
-
+          
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-
+          
       - name: Install dependencies
         run: |
           pip install flet requests
           
-          - name: Build APK
-       
+      - name: Build APK
         run: yes | flet build apk
-
+        
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
