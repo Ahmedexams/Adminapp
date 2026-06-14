@@ -10,7 +10,7 @@ DB_SECRET = "nLDwjWapYWCVLHEyfZtLSqJrJAiBAhdNErDz3C8z"
 
 def main(page: ft.Page):
     try:
-        # إعدادات شاشة الموبايل الأساسية وتصميم الخلفية
+        # إعدادات شاشة الموبايل
         page.title = "إدارة المنصة"
         page.theme_mode = ft.ThemeMode.DARK
         
@@ -30,9 +30,6 @@ def main(page: ft.Page):
             page.snack_bar.open = True
             page.update()
 
-        # ==========================================
-        # أدوات التصميم الجاهزة (بدون حواف لتجنب الأخطاء)
-        # ==========================================
         def gradient_button(text, on_click_func, width=300):
             return ft.Container(
                 content=ft.Text(text, color="black", weight="900", size=16),
@@ -72,17 +69,15 @@ def main(page: ft.Page):
                 focused_border_color="#58e6e9"
             )
 
+        # التعديل الحاسم هنا: استخدام الأرقام فقط للمسافات (بدون symmetric أو only)
         footer = ft.Container(
             content=ft.Text("DEVELOPED BY AHMED HAMED", color="#b388ff", weight="bold", size=12),
             border_radius=25,
-            padding=ft.padding.symmetric(horizontal=20, vertical=10),
-            margin=ft.margin.only(top=30, bottom=20),
+            padding=10, 
+            margin=20,  
             bgcolor="#050710"
         )
 
-        # ===============================
-        # 1. شاشة مراقبة المتصلين
-        # ===============================
         def build_online_view(e=None):
             try:
                 page.clean()
@@ -156,9 +151,6 @@ def main(page: ft.Page):
             except Exception as ex:
                 pass
 
-        # ===============================
-        # 2. شاشة الحسابات
-        # ===============================
         def build_users_view(e=None):
             try:
                 page.clean()
@@ -230,18 +222,14 @@ def main(page: ft.Page):
             except Exception as ex:
                 pass
 
-        # ===============================
-        # 3. لوحة التحكم الأساسية
-        # ===============================
         def build_dashboard(e=None):
             try:
                 page.clean()
                 
+                # أزلنا التأثيرات المعقدة لضمان عدم الانهيار
                 logo = ft.Container(
                     content=ft.Icon(ft.icons.CHECK_CIRCLE_OUTLINE, size=70, color="#58e6e9"),
-                    padding=10,
-                    shape=ft.BoxShape.CIRCLE,
-                    shadow=ft.BoxShadow(spread_radius=1, blur_radius=25, color="#2a3f75")
+                    padding=10
                 )
 
                 main_card = ft.Container(
