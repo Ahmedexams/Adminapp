@@ -142,7 +142,6 @@ def main(page: ft.Page):
         def build_dashboard(e=None):
             page.clean()
             page.add(
-                ft.Icon(ft.icons.SETTINGS, size=80, color="#6ee7ff"),
                 ft.Text("لوحة تحكم المنصة", size=30, color="#6ee7ff", weight="bold"),
                 ft.Container(height=30),
                 ft.ElevatedButton("إدارة حسابات الطلاب", on_click=build_users_view, width=300, height=50),
