@@ -145,4 +145,4 @@ def main(page: ft.Page):
     build_dashboard()
 
 # لتشغيله في Termux نقوم بفتحه عبر متصفح الهاتف مؤقتاً
-ft.app(target=main, view=ft.AppView.WEB_BROWSER, port=8080)
+ft.app(target=main)
