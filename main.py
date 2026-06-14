@@ -10,10 +10,9 @@ DB_SECRET = "nLDwjWapYWCVLHEyfZtLSqJrJAiBAhdNErDz3C8z"
 
 def main(page: ft.Page):
     try:
-        # إعدادات الواجهة الأساسية بألوان فخمة
         page.title = "إدارة المنصة"
         page.theme_mode = ft.ThemeMode.DARK
-        page.bgcolor = "#070B14"  # خلفية كحلي داكن جداً
+        page.bgcolor = "#070B14"  
         page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         page.vertical_alignment = ft.MainAxisAlignment.CENTER
         page.scroll = "auto"
@@ -23,11 +22,7 @@ def main(page: ft.Page):
             page.snack_bar.open = True
             page.update()
 
-        # ==========================================
-        # أدوات التصميم الجاهزة (آمنة تماماً بدون أوامر معقدة)
-        # ==========================================
         def primary_button(text, on_click_func):
-            # زر متدرج أنيق جداً بألوان سماوي وبنفسجي
             return ft.Container(
                 content=ft.Text(text, color="#070B14", weight="900", size=16),
                 alignment=ft.alignment.center,
@@ -37,11 +32,10 @@ def main(page: ft.Page):
                 gradient=ft.LinearGradient(colors=["#58e6e9", "#b388ff"]), 
                 on_click=on_click_func,
                 ink=True,
-                shadow=ft.BoxShadow(blur_radius=15, color="#1a2b55") # ظل خفيف للزر
+                shadow=ft.BoxShadow(blur_radius=15, color="#1a2b55") 
             )
 
         def secondary_button(text, on_click_func):
-            # زر ثانوي رمادي داكن للرجوع والتحديث
             return ft.Container(
                 content=ft.Text(text, color="#a8b3d9", weight="bold"),
                 alignment=ft.alignment.center,
@@ -64,18 +58,15 @@ def main(page: ft.Page):
                 focused_border_color="#58e6e9"
             )
 
-        # اللوجو المضيء
+        # الحل الجذري: استخدمنا رمز نصي ✓ بدل الأيقونة عشان نمنع أي انهيار
         logo = ft.Container(
-            content=ft.Icon(ft.icons.CHECK_CIRCLE_OUTLINE, size=70, color="#58e6e9"),
-            padding=10,
+            content=ft.Text("✓", size=50, color="#58e6e9", weight="bold"),
+            padding=20,
             bgcolor="#070B14",
             shape=ft.BoxShape.CIRCLE,
-            shadow=ft.BoxShadow(spread_radius=2, blur_radius=25, color="#2a3f75") # تأثير النيون
+            shadow=ft.BoxShadow(spread_radius=2, blur_radius=25, color="#2a3f75") 
         )
 
-        # ===============================
-        # 1. شاشة مراقبة المتصلين
-        # ===============================
         def build_online_view(e=None):
             try:
                 page.clean()
@@ -125,7 +116,6 @@ def main(page: ft.Page):
 
                 input_kick = custom_textfield("اسم الطالب لطرده")
                 
-                # الكارت الداخلي الشفاف
                 card = ft.Container(
                     content=ft.Column([
                         lbl_count,
@@ -153,9 +143,6 @@ def main(page: ft.Page):
             except Exception as ex:
                 pass
 
-        # ===============================
-        # 2. شاشة الحسابات
-        # ===============================
         def build_users_view(e=None):
             try:
                 page.clean()
@@ -231,9 +218,6 @@ def main(page: ft.Page):
             except Exception as ex:
                 pass
 
-        # ===============================
-        # 3. لوحة التحكم الأساسية
-        # ===============================
         def build_dashboard(e=None):
             try:
                 page.clean()
