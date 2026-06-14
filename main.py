@@ -10,82 +10,29 @@ DB_SECRET = "nLDwjWapYWCVLHEyfZtLSqJrJAiBAhdNErDz3C8z"
 
 def main(page: ft.Page):
     try:
-        # إعدادات شاشة الموبايل
+        # إعدادات بسيطة جداً وآمنة
         page.title = "إدارة المنصة"
         page.theme_mode = ft.ThemeMode.DARK
-        
-        page.decoration = ft.BoxDecoration(
-            gradient=ft.LinearGradient(
-                begin=ft.Alignment(0, -1), 
-                end=ft.Alignment(0, 1),    
-                colors=["#161c33", "#050710"]
-            )
-        )
         page.horizontal_alignment = ft.CrossAxisAlignment.CENTER
         page.vertical_alignment = ft.MainAxisAlignment.CENTER
         page.scroll = "auto"
         
         def notify(msg, color="green"):
-            page.snack_bar = ft.SnackBar(ft.Text(msg, weight="bold", color="white"), bgcolor=color)
+            page.snack_bar = ft.SnackBar(ft.Text(msg, color="white"), bgcolor=color)
             page.snack_bar.open = True
             page.update()
 
-        def gradient_button(text, on_click_func, width=300):
-            return ft.Container(
-                content=ft.Text(text, color="black", weight="900", size=16),
-                alignment=ft.Alignment(0, 0),
-                width=width,
-                height=55,
-                border_radius=15,
-                gradient=ft.LinearGradient(
-                    colors=["#58e6e9", "#b388ff"],
-                    begin=ft.Alignment(-1, 0),
-                    end=ft.Alignment(1, 0),
-                ),
-                on_click=on_click_func,
-                ink=True
-            )
-
-        def secondary_button(text, on_click_func, width=300):
-            return ft.Container(
-                content=ft.Text(text, color="#a8b3d9", weight="bold"),
-                alignment=ft.Alignment(0, 0),
-                width=width,
-                height=50,
-                border_radius=15,
-                bgcolor="#0a0e1c",
-                on_click=on_click_func,
-                ink=True
-            )
-
-        def custom_textfield(label):
-            return ft.TextField(
-                label=label,
-                text_align="center",
-                border_color="#1a2b55",
-                bgcolor="#0a0e1c",
-                border_radius=15,
-                color="white",
-                focused_border_color="#58e6e9"
-            )
-
-        # التعديل الحاسم هنا: استخدام الأرقام فقط للمسافات (بدون symmetric أو only)
-        footer = ft.Container(
-            content=ft.Text("DEVELOPED BY AHMED HAMED", color="#b388ff", weight="bold", size=12),
-            border_radius=25,
-            padding=10, 
-            margin=20,  
-            bgcolor="#050710"
-        )
-
+        # ===============================
+        # 1. شاشة مراقبة المتصلين
+        # ===============================
         def build_online_view(e=None):
             try:
                 page.clean()
                 table = ft.DataTable(
-                    columns=[ft.DataColumn(ft.Text("الطالب", color="#58e6e9")), ft.DataColumn(ft.Text("الجلسة", color="#58e6e9"))],
+                    columns=[ft.DataColumn(ft.Text("الطالب")), ft.DataColumn(ft.Text("الجلسة"))],
                     rows=[]
                 )
-                lbl_count = ft.Text("جاري التحميل في الخلفية...", size=14, color="#b388ff")
+                lbl_count = ft.Text("جاري التحميل...", size=16)
                 
                 def fetch_data():
                     try:
@@ -126,39 +73,33 @@ def main(page: ft.Page):
                 def kick_student(e):
                     threading.Thread(target=kick_action).start()
 
-                input_kick = custom_textfield("اسم الطالب لطرده")
-                
-                main_card = ft.Container(
-                    content=ft.Column([
-                        lbl_count,
-                        ft.Container(content=ft.Column([table], scroll="always"), height=200),
-                        input_kick,
-                        gradient_button("طرد الطالب", kick_student),
-                        secondary_button("تحديث البيانات", lambda _: load_data()),
-                        secondary_button("رجوع للوحة التحكم", build_dashboard)
-                    ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
-                    bgcolor="#090d1a",
-                    border_radius=20,
-                    padding=20,
-                    width=340
-                )
+                input_kick = ft.TextField(label="اسم الطالب لطرده", text_align="center")
                 
                 page.add(
-                    ft.Text("مراقبة المتصلين", size=26, color="white", weight="bold"),
-                    main_card
+                    ft.Text("مراقبة المتصلين", size=25, weight="bold"),
+                    lbl_count,
+                    table,
+                    input_kick,
+                    ft.ElevatedButton("طرد الطالب", on_click=kick_student, bgcolor="red", color="white"),
+                    ft.ElevatedButton("تحديث البيانات", on_click=lambda _: load_data()),
+                    ft.ElevatedButton("رجوع للوحة التحكم", on_click=build_dashboard)
                 )
                 load_data()
             except Exception as ex:
-                pass
+                page.add(ft.Text(f"Error in View:\n{ex}", color="red"))
+                page.update()
 
+        # ===============================
+        # 2. شاشة الحسابات
+        # ===============================
         def build_users_view(e=None):
             try:
                 page.clean()
                 table = ft.DataTable(
-                    columns=[ft.DataColumn(ft.Text("الطالب", color="#58e6e9")), ft.DataColumn(ft.Text("المرور", color="#58e6e9"))],
+                    columns=[ft.DataColumn(ft.Text("الطالب")), ft.DataColumn(ft.Text("المرور"))],
                     rows=[]
                 )
-                lbl_count = ft.Text("جاري التحميل في الخلفية...", size=14, color="#b388ff")
+                lbl_count = ft.Text("جاري التحميل...", size=16)
                 
                 def fetch_data():
                     try:
@@ -197,72 +138,48 @@ def main(page: ft.Page):
                 def delete_student(e):
                     threading.Thread(target=delete_action).start()
 
-                input_del = custom_textfield("اسم الطالب لحذفه")
-                
-                main_card = ft.Container(
-                    content=ft.Column([
-                        lbl_count,
-                        ft.Container(content=ft.Column([table], scroll="always"), height=200),
-                        input_del,
-                        gradient_button("حذف الحساب", delete_student),
-                        secondary_button("تحديث البيانات", lambda _: load_data()),
-                        secondary_button("رجوع للوحة التحكم", build_dashboard)
-                    ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
-                    bgcolor="#090d1a",
-                    border_radius=20,
-                    padding=20,
-                    width=340
-                )
+                input_del = ft.TextField(label="اسم الطالب لحذفه", text_align="center")
                 
                 page.add(
-                    ft.Text("إدارة الحسابات", size=26, color="white", weight="bold"),
-                    main_card
+                    ft.Text("إدارة الحسابات", size=25, weight="bold"),
+                    lbl_count,
+                    table,
+                    input_del,
+                    ft.ElevatedButton("حذف الحساب", on_click=delete_student, bgcolor="red", color="white"),
+                    ft.ElevatedButton("تحديث البيانات", on_click=lambda _: load_data()),
+                    ft.ElevatedButton("رجوع للوحة التحكم", on_click=build_dashboard)
                 )
                 load_data()
             except Exception as ex:
-                pass
+                page.add(ft.Text(f"Error in View:\n{ex}", color="red"))
+                page.update()
 
+        # ===============================
+        # 3. لوحة التحكم الأساسية
+        # ===============================
         def build_dashboard(e=None):
             try:
                 page.clean()
-                
-                # أزلنا التأثيرات المعقدة لضمان عدم الانهيار
-                logo = ft.Container(
-                    content=ft.Icon(ft.icons.CHECK_CIRCLE_OUTLINE, size=70, color="#58e6e9"),
-                    padding=10
-                )
-
-                main_card = ft.Container(
-                    content=ft.Column([
-                        gradient_button("إدارة حسابات الطلاب", build_users_view),
-                        ft.Container(height=5),
-                        gradient_button("مراقبة المتصلين الآن", build_online_view),
-                    ], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER),
-                    bgcolor="#090d1a",
-                    border_radius=20,
-                    padding=30,
-                    width=340
-                )
-
                 page.add(
+                    ft.Container(height=50),
+                    ft.Text("لوحة تحكم المنصة", size=28, weight="bold"),
                     ft.Container(height=30),
-                    logo,
+                    ft.ElevatedButton("إدارة حسابات الطلاب", on_click=build_users_view, width=250, height=50),
                     ft.Container(height=10),
-                    ft.Text("لوحة تحكم المنصة", size=28, color="white", weight="bold"),
-                    ft.Text("أهلاً بك يا أدمن، اختر الإجراء للبدء", color="#a8b3d9", size=14),
-                    ft.Container(height=20),
-                    main_card,
-                    footer
+                    ft.ElevatedButton("مراقبة المتصلين الآن", on_click=build_online_view, width=250, height=50),
+                    ft.Container(height=50),
+                    ft.Text("DEVELOPED BY AHMED HAMED", size=12)
                 )
             except Exception as ex:
-                pass
+                page.add(ft.Text(f"Error in Dashboard:\n{ex}", color="red"))
+                page.update()
 
         build_dashboard()
         
     except Exception as e:
         page.clean()
         page.bgcolor = "black"
-        page.add(ft.Text(f"Error:\n{traceback.format_exc()}", color="red", selectable=True))
+        page.add(ft.Text(f"Critical Error:\n{traceback.format_exc()}", color="red", selectable=True))
         page.update()
 
 ft.app(target=main)
