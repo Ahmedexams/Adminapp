@@ -14,11 +14,10 @@ def main(page: ft.Page):
         page.title = "إدارة المنصة"
         page.theme_mode = ft.ThemeMode.DARK
         
-        # التعديل هنا: استخدمنا الأرقام بدلاً من الكلمات لتجنب أي أخطاء
         page.decoration = ft.BoxDecoration(
             gradient=ft.LinearGradient(
-                begin=ft.Alignment(0, -1), # يمثل أعلى المنتصف
-                end=ft.Alignment(0, 1),    # يمثل أسفل المنتصف
+                begin=ft.Alignment(0, -1), 
+                end=ft.Alignment(0, 1),    
                 colors=["#161c33", "#050710"]
             )
         )
@@ -32,34 +31,31 @@ def main(page: ft.Page):
             page.update()
 
         # ==========================================
-        # أدوات التصميم الجاهزة (لتطابق الصورة)
+        # أدوات التصميم الجاهزة (بدون حواف لتجنب الأخطاء)
         # ==========================================
         def gradient_button(text, on_click_func, width=300):
-            # زر متدرج الألوان السماوي والبنفسجي
             return ft.Container(
                 content=ft.Text(text, color="black", weight="900", size=16),
-                alignment=ft.Alignment(0, 0), # يمثل المنتصف تماماً
+                alignment=ft.Alignment(0, 0),
                 width=width,
                 height=55,
                 border_radius=15,
                 gradient=ft.LinearGradient(
                     colors=["#58e6e9", "#b388ff"],
-                    begin=ft.Alignment(-1, 0), # يسار المنتصف
-                    end=ft.Alignment(1, 0),    # يمين المنتصف
+                    begin=ft.Alignment(-1, 0),
+                    end=ft.Alignment(1, 0),
                 ),
                 on_click=on_click_func,
                 ink=True
             )
 
         def secondary_button(text, on_click_func, width=300):
-            # زر ثانوي بإطار للرجوع والتحديث
             return ft.Container(
                 content=ft.Text(text, color="#a8b3d9", weight="bold"),
                 alignment=ft.Alignment(0, 0),
                 width=width,
                 height=50,
                 border_radius=15,
-                border=ft.border.all(1, "#1a2b55"),
                 bgcolor="#0a0e1c",
                 on_click=on_click_func,
                 ink=True
@@ -78,7 +74,6 @@ def main(page: ft.Page):
 
         footer = ft.Container(
             content=ft.Text("DEVELOPED BY AHMED HAMED", color="#b388ff", weight="bold", size=12),
-            border=ft.border.all(1, "#1a2b55"),
             border_radius=25,
             padding=ft.padding.symmetric(horizontal=20, vertical=10),
             margin=ft.margin.only(top=30, bottom=20),
@@ -148,7 +143,6 @@ def main(page: ft.Page):
                         secondary_button("رجوع للوحة التحكم", build_dashboard)
                     ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
                     bgcolor="#090d1a",
-                    border=ft.border.all(1, "#1a2b55"),
                     border_radius=20,
                     padding=20,
                     width=340
@@ -223,7 +217,6 @@ def main(page: ft.Page):
                         secondary_button("رجوع للوحة التحكم", build_dashboard)
                     ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
                     bgcolor="#090d1a",
-                    border=ft.border.all(1, "#1a2b55"),
                     border_radius=20,
                     padding=20,
                     width=340
@@ -258,7 +251,6 @@ def main(page: ft.Page):
                         gradient_button("مراقبة المتصلين الآن", build_online_view),
                     ], alignment=ft.MainAxisAlignment.CENTER, horizontal_alignment=ft.CrossAxisAlignment.CENTER),
                     bgcolor="#090d1a",
-                    border=ft.border.all(1, "#1a2b55"),
                     border_radius=20,
                     padding=30,
                     width=340
