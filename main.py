@@ -13,11 +13,12 @@ def main(page: ft.Page):
         # إعدادات شاشة الموبايل الأساسية وتصميم الخلفية
         page.title = "إدارة المنصة"
         page.theme_mode = ft.ThemeMode.DARK
-        # خلفية متدرجة تشبه الصورة
+        
+        # التعديل هنا: استخدمنا الأرقام بدلاً من الكلمات لتجنب أي أخطاء
         page.decoration = ft.BoxDecoration(
             gradient=ft.LinearGradient(
-                begin=ft.alignment.top_center,
-                end=ft.alignment.bottom_center,
+                begin=ft.Alignment(0, -1), # يمثل أعلى المنتصف
+                end=ft.Alignment(0, 1),    # يمثل أسفل المنتصف
                 colors=["#161c33", "#050710"]
             )
         )
@@ -37,14 +38,14 @@ def main(page: ft.Page):
             # زر متدرج الألوان السماوي والبنفسجي
             return ft.Container(
                 content=ft.Text(text, color="black", weight="900", size=16),
-                alignment=ft.alignment.center,
+                alignment=ft.Alignment(0, 0), # يمثل المنتصف تماماً
                 width=width,
                 height=55,
                 border_radius=15,
                 gradient=ft.LinearGradient(
                     colors=["#58e6e9", "#b388ff"],
-                    begin=ft.alignment.center_left,
-                    end=ft.alignment.center_right,
+                    begin=ft.Alignment(-1, 0), # يسار المنتصف
+                    end=ft.Alignment(1, 0),    # يمين المنتصف
                 ),
                 on_click=on_click_func,
                 ink=True
@@ -54,7 +55,7 @@ def main(page: ft.Page):
             # زر ثانوي بإطار للرجوع والتحديث
             return ft.Container(
                 content=ft.Text(text, color="#a8b3d9", weight="bold"),
-                alignment=ft.alignment.center,
+                alignment=ft.Alignment(0, 0),
                 width=width,
                 height=50,
                 border_radius=15,
@@ -142,8 +143,8 @@ def main(page: ft.Page):
                         lbl_count,
                         ft.Container(content=ft.Column([table], scroll="always"), height=200),
                         input_kick,
-                        gradient_button("طرد الطالب 👢", kick_student),
-                        secondary_button("تحديث البيانات 🔄", lambda _: load_data()),
+                        gradient_button("طرد الطالب", kick_student),
+                        secondary_button("تحديث البيانات", lambda _: load_data()),
                         secondary_button("رجوع للوحة التحكم", build_dashboard)
                     ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
                     bgcolor="#090d1a",
@@ -217,8 +218,8 @@ def main(page: ft.Page):
                         lbl_count,
                         ft.Container(content=ft.Column([table], scroll="always"), height=200),
                         input_del,
-                        gradient_button("حذف الحساب 🗑️", delete_student),
-                        secondary_button("تحديث البيانات 🔄", lambda _: load_data()),
+                        gradient_button("حذف الحساب", delete_student),
+                        secondary_button("تحديث البيانات", lambda _: load_data()),
                         secondary_button("رجوع للوحة التحكم", build_dashboard)
                     ], horizontal_alignment=ft.CrossAxisAlignment.CENTER),
                     bgcolor="#090d1a",
@@ -243,7 +244,6 @@ def main(page: ft.Page):
             try:
                 page.clean()
                 
-                # اللوجو المضيء
                 logo = ft.Container(
                     content=ft.Icon(ft.icons.CHECK_CIRCLE_OUTLINE, size=70, color="#58e6e9"),
                     padding=10,
@@ -251,7 +251,6 @@ def main(page: ft.Page):
                     shadow=ft.BoxShadow(spread_radius=1, blur_radius=25, color="#2a3f75")
                 )
 
-                # حاوية الأزرار الرئيسية المظلمة
                 main_card = ft.Container(
                     content=ft.Column([
                         gradient_button("إدارة حسابات الطلاب", build_users_view),
